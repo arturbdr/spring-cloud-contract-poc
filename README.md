@@ -1,0 +1,1 @@
+This application implements a POC of Spring data Contract
