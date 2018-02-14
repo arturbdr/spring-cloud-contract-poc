@@ -1,12 +1,12 @@
-package com.learning.spring.clientside;
+package com.learn.springcloudcontract.serverside;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ClientSideApplication {
+public class ServerSideApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ClientSideApplication.class, args);
+		SpringApplication.run(ServerSideApplication.class, args);
 	}
 }
