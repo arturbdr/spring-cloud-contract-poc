@@ -64,4 +64,29 @@ public class CarRentalClientApplicationTests {
         BDDAssertions.then(responseEntity.getStatusCode()).isEqualTo(OK);
 
     }
+
+    @Test
+    public void shouldReturnAllFraudPersonIntegration() {
+
+        List<PersonTO> personTOS = Collections.singletonList(PersonTO.builder()
+                .age(10)
+                .name("John")
+                .build());
+
+        ParameterizedTypeReference<Collection<PersonTO>> parameterizedTypeReference =
+                new ParameterizedTypeReference<Collection<PersonTO>>() {
+                };
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<Collection<PersonTO>> responseEntity = restTemplate.exchange("http://localhost:8082/fraudster",
+                HttpMethod.GET,
+                null,
+                parameterizedTypeReference);
+
+        Collection<PersonTO> body = responseEntity.getBody();
+        BDDAssertions.then(body.stream().findFirst().get()).isEqualTo(personTOS.stream().findFirst().get());
+        BDDAssertions.then(responseEntity.getStatusCode()).isEqualTo(OK);
+
+    }
 }

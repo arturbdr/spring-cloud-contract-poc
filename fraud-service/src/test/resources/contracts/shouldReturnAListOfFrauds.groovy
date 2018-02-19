@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus
 Contract.make {
     description("Should return a list of fraudsters")
     request {
-        url "/fraudsters"
+        url "/fraudster"
         method GET()
     }
 
