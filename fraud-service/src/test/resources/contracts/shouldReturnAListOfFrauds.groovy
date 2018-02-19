@@ -10,6 +10,9 @@ Contract.make {
 
     response {
         status HttpStatus.OK.value()
+        headers {
+            header 'Content-Type': 'application/json;charset=UTF-8'
+        }
         body '''
             [  
                {  
