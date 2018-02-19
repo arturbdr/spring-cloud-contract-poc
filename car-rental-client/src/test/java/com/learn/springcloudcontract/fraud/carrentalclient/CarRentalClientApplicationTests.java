@@ -3,6 +3,7 @@ package com.learn.springcloudcontract.fraud.carrentalclient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import com.learn.springcloudcontract.fraud.carrentalclient.gateway.http.to.Address;
 import com.learn.springcloudcontract.fraud.carrentalclient.gateway.http.to.PersonTO;
 import org.assertj.core.api.BDDAssertions;
 import org.junit.Rule;
@@ -80,6 +81,34 @@ public class CarRentalClientApplicationTests {
         List<PersonTO> personTOS = Collections.singletonList(PersonTO.builder()
                 .age(10)
                 .name("John")
+                .build());
+
+        ParameterizedTypeReference<Collection<PersonTO>> parameterizedTypeReference =
+                new ParameterizedTypeReference<Collection<PersonTO>>() {
+                };
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<Collection<PersonTO>> responseEntity = restTemplate.exchange("http://localhost:9090/fraudster",
+                HttpMethod.GET,
+                null,
+                parameterizedTypeReference);
+
+        Collection<PersonTO> body = responseEntity.getBody();
+        BDDAssertions.then(body.stream().findFirst().get()).isEqualTo(personTOS.stream().findFirst().get());
+        BDDAssertions.then(responseEntity.getStatusCode()).isEqualTo(OK);
+
+    }
+
+    @Test
+    public void shouldReturnAllFraudPersonAddressIntegration() {
+
+        List<PersonTO> personTOS = Collections.singletonList(PersonTO.builder()
+                .age(10)
+                .name("John")
+                .address(Address.builder()
+                        .number(555)
+                        .street("Any Street Name").build())
                 .build());
 
         ParameterizedTypeReference<Collection<PersonTO>> parameterizedTypeReference =
